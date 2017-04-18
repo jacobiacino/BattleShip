@@ -24,28 +24,17 @@ import acm.program.GraphicsProgram;
 
 
 public class BattleShip extends GraphicsProgram {
-Random random = new Random();
-    JLabel label;
+	GameState state = GameState.OPENING;
+	Random random = new Random();
     GLabel gLabel;
     JTextArea textArea;
     JTextField textField;
     JButton button1;
-    JButton button2;
-    JButton button3;
     Timer timer;
    
     public void init(){
-    this.setSize(500,500);
-        this.gLabel = new GLabel("BattleShip");
-        gLabel.setFont("Arial-BOLD-45"); 
-       
-        this.add(gLabel,110 ,200);
-        this.setBackground(Color.BLUE);
+    	this.setSize(1330, 670);
         this.textArea = new JTextArea(4,10);
-        this.textArea.setText("Follow the instructions carefully to play! Hit 'GO' to Start!");
-        this.textArea.setLineWrap(true);
-        this.textArea.setWrapStyleWord(true);
-        this.add(textArea, NORTH);
        
         this.button1 = new JButton();
         this.button1.setText("GO");
@@ -58,34 +47,10 @@ Random random = new Random();
 	}
    
     public void action(ActionEvent e) {
-	    int randomX = random.nextInt(8);
-	    int randomY = random.nextInt(8);
-	    int randomLength = random.nextInt(8);
-	    this.setBackground(Color.WHITE);
-	    this.remove(gLabel);
-	    this.remove(textArea);
-	    this.remove(button1);
-	    int rows = 9;
-	    int colums = 9;
-	    GRect[][] grect = new GRect[rows][colums];
-	    int countX = 0;
-	    int countY = 0;
-	      for(int i=0; i<rows; i++){
-	          for (int j=0; j<colums; j++){
-	   
-	              grect[i][j] = new GRect(countX*38, countY*38, 76 ,76 );  
-	   
-	              if(j == randomX){
-	            	  grect[i][j].setFillColor(Color.BLUE);
-	              }
-	              add(grect[i][j]); 
-	              countX++;
-	              if(countX == 9){
-		              countX = 0;
-		              countY++;
-	              }    
-	          }
-	      }
+    	this.add(new Menu(10, 10));
+	    this.add(new PlayerBoard(220, 10));
+	    this.add(new CPUBoard(780, 10));
+	    state = GameState.PLACESHIPS;
       }
   
     public void run() {
